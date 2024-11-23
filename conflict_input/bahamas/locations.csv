@@ -1,23 +1,24 @@
 name,region,country,latitude,longitude,location_type,conflict_date,population
-Sir Kendal Issacs Gym,Nassau,Bahamas (The),25.052368,-77.362515,camp,18,1150
-Bahamas Academy Gym,Nassau,Bahamas (The),25.00738571,-77.35644404,camp,13,400
-Fox Hill Community Center,Nassau,Bahamas (The),25.04683036,-77.29185186,camp,13,205
-Calvary Haitian Baptist Church,Nassau,Bahamas (The),25.068822,-77.335786,camp,13,95
-Pilgrim Baptist Church,Nassau,Bahamas (The),25.06927857,-77.31864535,camp,13,100
-All Saints Anglican Auditorium,Nassau,Bahamas (The),25.021723,-77.341509,camp,13,200
-Salvation Army Mackey,Nassau,Bahamas (The),25.07292404,-77.32302632,camp,13,40
-Rainfurly Home for Children,Nassau,Bahamas (The),25.064518,-77.324184,camp,32,30
-Children's Emergency Hostel,Nassau,Bahamas (The),25.021698,-77.386912,camp,32,20
-Nazareth Centres,Nassau,Bahamas (The),25.049971,-77.373537,camp,32,20
-Enoch Backford Shelter,Nassau,Bahamas (The),25.01915364,-77.38514832,camp,10,200
-Grants Town SDA,Nassau,Bahamas (The),25.07118729,-77.34507364,camp,9,40
-Marsh Harbour Healthcare Centre,Abaco,Bahamas (The),26.53438609,-77.07014579,camp,5,1000
-Marsh Harbor Government Complex,Abaco,Bahamas (The),26.53683878,-77.0687911,camp,5,1000
-Central Abaco Primary School ,Abaco,Bahamas (The),26.53918187,-77.07987207,camp,5,450
-Grand Lucayan Resort,Freeport,Bahamas (The),26.5129893,-78.63968584,camp,5,800
-Bethel Deliverance Center,Freeport,Bahamas (The),26.54816952,-78.81924731,camp,5,100
-Church of the Ascension ,Freeport,Bahamas (The),26.52461029,-78.63049587,camp,12,75
-St. Georges Sr. (Gymnasium Only),Freeport,Bahamas (The),26.51287023,-78.68387435,camp,12,400
-City of Freeport,,Bahamas (The),26.5203,-78.6453,town,,8609
-Abaco,,Bahamas (The),26.4392,-77.1297,town,,17200
-Nassua,,Bahamas (The),25.059999,-77.345001,town,,"246,329"
+Sir Kendal Issacs Gym,New Providence,Bahamas (The),25.052368,-77.362515,camp,18,1150
+Bahamas Academy Gym,New Providence,Bahamas (The),25.00738571,-77.35644404,camp,13,400
+Fox Hill Community Center,New Providence,Bahamas (The),25.04683036,-77.29185186,camp,13,205
+Calvary Haitian Baptist Church,New Providence,Bahamas (The),25.068822,-77.335786,camp,13,95
+Pilgrim Baptist Church,New Providence,Bahamas (The),25.06927857,-77.31864535,camp,13,100
+All Saints Anglican Auditorium,New Providence,Bahamas (The),25.021723,-77.341509,camp,13,200
+Salvation Army Mackey,New Providence,Bahamas (The),25.07292404,-77.32302632,camp,13,40
+Rainfurly Home for Children,New Providence,Bahamas (The),25.064518,-77.324184,camp,32,30
+Children's Emergency Hostel,New Providence,Bahamas (The),25.021698,-77.386912,camp,32,20
+Nazareth Centres,New Providence,Bahamas (The),25.049971,-77.373537,camp,32,20
+Enoch Backford Shelter,New Providence,Bahamas (The),25.01915364,-77.38514832,camp,10,200
+Grants Town SDA,New Providence,Bahamas (The),25.07118729,-77.34507364,camp,9,40
+Marsh Harbour Healthcare Centre,South Abaco,Bahamas (The),26.53438609,-77.07014579,camp,5,1000
+Marsh Harbor Government Complex,South Abaco,Bahamas (The),26.53683878,-77.0687911,camp,5,1000
+Central Abaco Primary School ,South Abaco,Bahamas (The),26.53918187,-77.07987207,camp,5,450
+Grand Lucayan Resort,Great Bahamas,Bahamas (The),26.5129893,-78.63968584,camp,5,800
+Bethel Deliverance Center,Great Bahamas,Bahamas (The),26.54816952,-78.81924731,camp,5,100
+Church of the Ascension ,Great Bahamas,Bahamas (The),26.52461029,-78.63049587,camp,12,75
+St. Georges Sr. (Gymnasium Only),Great Bahamas,Bahamas (The),26.51287023,-78.68387435,camp,12,400
+Freeport,Great Bahamas,Bahamas (The),26.5203,-78.6453,town,,27027
+Marsh Harbor,South Abaco,Bahamas (The),26.4392,-77.1297,town,,17200
+Nassua,New Providence,Bahamas (The),25.059999,-77.345001,town,,"246,329"
+Eight Mile Rock,Great Bahamas,Bahamas (The),,,,,9640
