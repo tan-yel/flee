@@ -1,22 +1,21 @@
-#name1,name2,distance,forced_redirection
-Nassua,Grants Town SDA,1.244,2
-Nassua,Sir Kendal Issacs Gym,1.9576,2
-Nassua,Bahamas Academy Gym,5.963,2
-Nassua,Fox Hill Community Center,5.55,2
-Nassua,Calvary Haitian Baptist Church,1.3506,2
-Nassua,Pilgrim Baptist Church,2.848,2
-Nassua,All Saints Anglican Auditorium,4.271,2
-Nassua,Salvation Army Mackey,2.639,2
-Nassua,Rainfurly Home for Children,2.156,2
-Nassua,Children's Emergency Hostel,5.997,2
-Nassua,Nazareth Centres,3.083,2
-Nassua,Enoch Backford Shelter,6.082,2
-Abaco,Marsh Harbour Healthcare Centre,12.13,2
-Abaco,Marsh Harbor Government Complex,12.435,2
-Abaco,Central Abaco Primary School ,12.173,2
-City of Freeport,Grand Lucayan Resort,0.9863,2
-City of Freeport,Bethel Deliverance Center,17.58,2
-City of Freeport,Church of the Ascension ,1.549,2
-City of Freeport,St. Georges Sr. (Gymnasium Only),3.926,2
-Nassua,Abaco,154.87,1
-Nassua,City of Freeport,208.1,1
+#name1,name2,distance,forced_redirection,link_type
+nassua,sir_kendal_issacs_gym,3.341,2,drive
+nassua,bahamas_academy_gym,8.27,2,drive
+nassua,fox_hill_community_center,5.764,2,drive
+nassua,calvary_haitian_baptist_church,0.9419,2,drive
+nassua,pilgrim_baptist_church,2.246,2,drive
+nassua,all_saints_anglican_auditorium,6.154,2,drive
+nassua,salvation_army_mackey,1.6456,2,drive
+nassua,rainfurly_home_for_children,1.9547,2,drive
+nassua,children's_emergency_hostel,7.872,2,drive
+nassua,nazareth_centres,4.612,2,drive
+nassua,enoch_backford_shelter,8.002,2,drive
+nassua,grants_town_sda,1.3733,2,drive
+marsh_harbor,marsh_harbour_healthcare_centre,0.8481,2,drive
+marsh_harbor,marsh_harbor_government_complex,0.5958,2,drive
+marsh_harbor,central_abaco_primary_school_,1.6848,2,drive
+freeport,grand_lucayan_resort,6.13,2,drive
+eight_mile_rock,bethel_deliverance_center,1.5743,2,drive
+freeport,church_of_the_ascension_,6.571,2,drive
+freeport,st._georges_sr._(gymnasium_only),2.833,2,drive
+nassua,marsh_harbor,164.8,1,crossing
