@@ -1,0 +1,14 @@
+#name,region,country,lat,lon,location_type,conflict_date,population
+campzone_a,new_providence,the_bahamas,25.050501,-77.3475555,camp,,1170
+bahamas_academy_gym,new_providence,the_bahamas,25.004464,-77.356392,camp,,400
+fox_hill_community_center,new_providence,the_bahamas,25.046605,-77.29193,camp,,205
+campzone_b,new_providence,the_bahamas,25.06661625,-77.3302285,camp,,125
+campzone_c,new_providence,the_bahamas,25.0671045,-77.332344,camp,,140
+all_saints_anglican_auditorium,new_providence,the_bahamas,25.021727,-77.341378,camp,,200
+salvation_army_mackey,new_providence,the_bahamas,25.071764,-77.323008,camp,,40
+children's_emergency_hostel,new_providence,the_bahamas,25.021598,-77.386937,camp,,20
+enoch_backford_shelter,new_providence,the_bahamas,25.019019,-77.385333,camp,,200
+campzone_d,south_abaco,the_bahamas,26.5356005,-77.069585,camp,,2000
+central_abaco_primary_school,south_abaco,the_bahamas,26.53915,-77.07984,camp,,450
+marsh_harbor,south_abaco,the_bahamas,26.53806,-77.062948,flood_zone,1,17200
+nassua,new_providence,the_bahamas,25.077,-77.33829,flood_zone,,246329
