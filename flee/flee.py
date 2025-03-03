@@ -814,8 +814,11 @@ class Ecosystem:
         """
         camp_names = []
         for loc in self.locations:
-            if loc.camp:
+            if "flood_driven_spawning" in SimulationSettings.spawn_rules.keys():
                 camp_names += [loc.name]
+            else:
+                if loc.camp:
+                    camp_names += [loc.name]
         return camp_names
 
 
@@ -1418,6 +1421,7 @@ class Ecosystem:
             # move chance based on default because flood_level not linked to flood_zone yet
             l.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
             l.flood_zone = True
+            print(location_type.lower())
         elif "default" in location_type.lower() or "town" in location_type.lower():
                 l.town = True
                 l.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
