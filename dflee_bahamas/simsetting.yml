@@ -20,10 +20,11 @@ spawn_rules:
 
 move_rules:
   default_movechance: 0.6
-  awareness_level: 4
+  awareness_level: 1
   start_on_foot: True
   flood_rules:
     max_flood_level: 5
-    flood_movechances: [0.0,0.8,1.0,1.0,1.0]
-    flood_loc_weights: [1.0,0.5,0.1,0.0,0.0]
+    flood_movechances: [0.3, 0.8, 1.0, 1.0, 1.0]
+    flood_loc_weights: [1.0, 0.7, 0.4, 0.1, 0.0]
+
 
