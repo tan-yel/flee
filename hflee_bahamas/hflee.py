@@ -1,4 +1,4 @@
-from flee import Person, Ecosystem
+from flee.flee import Person, Ecosystem
 
 class HFleePerson(Person):
     def choose_destination(self):
