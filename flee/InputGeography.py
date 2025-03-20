@@ -145,6 +145,10 @@ class InputGeography:
             None.
         """
 
+        if "hurricane_driven_spawning" in SimulationSettings.spawn_rules.keys():
+            if SimulationSettings.spawn_rules["hurricane_driven_spawning"] is True:
+                self.ReadHurricaneInputCSV(SimulationSettings.HurricaneLevelInputFile)
+
         if "flood_driven_spawning" in SimulationSettings.spawn_rules.keys():
             # Read flood location attributes.
             if SimulationSettings.spawn_rules["flood_driven_spawning"] is True:
@@ -708,3 +712,10 @@ class InputGeography:
                             )
                         e.set_conflict_intensity(name=conflict_name, conflict_intensity=self.conflicts[conflict_name][time])
 
+    def ReadHurricaneInputCSV(self, filename):
+        self.hurricane_data = {}
+        with open(filename, newline='', encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                day = int(row["Day"])
+                self.hurricane_data[day] = {loc: int(row[loc]) for loc in row if loc != "Day"}

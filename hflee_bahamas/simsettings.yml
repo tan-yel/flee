@@ -17,6 +17,10 @@ spawn_rules:
   flood_driven_spawning:
     flood_spawn_mode: "pop_ratio"
     displaced_per_flood_day: [0.0,0.0,0.0,0.0,0.0]
+  hurricane_driven_spawning:
+    flood_spawn_mode: "pop_ratio"
+    displaced_per_flood_day: [0.0,0.1,0.3,0.5,0.7]
+  HurricaneLevelInputFile: "hurricane_zones.csv"
 
 move_rules:
   default_movechance: 0.6

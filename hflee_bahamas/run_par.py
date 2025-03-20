@@ -62,6 +62,12 @@ if __name__ == "__main__":
     new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
     spawning.refresh_spawn_weights(e)
     e.enact_border_closures(t)
+
+    if t in ig.hurricane_data:
+       for loc, level in ig.hurricane_data[t].items():
+          if loc in e.locations:
+             e.locations[loc].hurricane_level = level
+    
     e.evolve()
     
     errors = []
