@@ -237,6 +237,10 @@ class InputGeography:
                 loc_list.append("white")
             elif l[5].lower() == "flood_zone":
                 loc_list.append("blue")
+            elif l[5].lower() == "hurricane_zone":
+                loc_list.append("blue")
+            elif l[5].lower() == "safe_zone":
+                loc_list.append("blue")
             elif l[5].lower() == "forward":
                 loc_list.append("blue")
             else:
@@ -595,6 +599,7 @@ class InputGeography:
         """
         # In DFlee attrlist is a dictionary of flood location names and their attributes
         #e.g {'F1': [0, 0, 1, 1, 2, 1, 1, 1, 1, 1, 1], 'F2': [1, 1, 1, 3, 1, 1, 0, 0, 0, 0, 1], 'F3': [0, 0, 0, 1, 1, 2, 3, 2, 1, 1, 0]}
+        print(f"Available attributes in self.attributes: {self.attributes.keys()}", file=sys.stderr) #debug
         attrlist = self.attributes[attribute_name]
 
         # Get the length of the first array in attrlist 
@@ -608,7 +613,7 @@ class InputGeography:
             
             #If the attibute has been specified by the input file: 
             if loc_name in attrlist:
-                if attribute_name == "forecast_flood_levels":
+                if attribute_name == "forecast_flood_levels" or attribute_name == "forecast_hurricane_level":
                     #Set forecast_flood_levels attribute for flood_zones
                     e.locations[i].attributes[attribute_name] = attrlist[loc_name]
                 else:
@@ -616,7 +621,7 @@ class InputGeography:
                     e.locations[i].attributes[attribute_name] =int(attrlist[loc_name][time])
             else: 
                 #If the location name is not in the attribute list, then set the attribute to default value of zero
-                if attribute_name == "forecast_flood_levels":
+                if attribute_name == "forecast_flood_levels" or attribute_name == "forecast_hurricane_level":
                     #Set default forecast_flood_levels attribute to array of zeros for towns/camps
                     e.locations[i].attributes[attribute_name] = [0] * attrlength #array of zeros with length equal to the length of the first array in attrlist
                 else:
