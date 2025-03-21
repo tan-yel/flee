@@ -1,9 +1,9 @@
 from hflee import HFleeEcosystem as Ecosystem
 from hflee import HFleePerson
+from hflee import HFleeInputGeography
 from flee import spawning
 from flee.datamanager import handle_refugee_data, read_period
 from flee.datamanager import DataTable
-from flee import InputGeography
 import numpy as np
 import flee.postprocessing.analysis as a
 import sys
@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
   e = Ecosystem()
   
-  ig = InputGeography.InputGeography()
+  ig = HFleeInputGeography()
   ig.ReadLocationsFromCSV("%s/locations.csv" % input_csv_directory)
   ig.ReadLinksFromCSV("%s/routes.csv" % input_csv_directory)
   ig.ReadClosuresFromCSV("%s/closures.csv" % input_csv_directory)
