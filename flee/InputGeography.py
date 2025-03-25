@@ -724,3 +724,25 @@ class InputGeography:
             for row in reader:
                 day = int(row["Day"])
                 self.hurricane_data[day] = {loc: int(row[loc]) for loc in row if loc != "Day"}
+
+    def assess_hurricane_impact(self, location, hurricane_level):
+        """
+        Determine movement probability based on hurricane level
+        """
+        hurricane_impact_map = {
+            0: 0.1,   # Minimal impact
+            1: 0.3,   # Tropical depression
+            2: 0.5,   # Tropical storm
+            3: 0.7,   # Category 1 hurricane
+            4: 0.9,   # Category 2-3 hurricane
+            5: 1.0    # Category 4-5 hurricane
+        }
+        
+        return hurricane_impact_map.get(hurricane_level, 0.1)
+
+    def should_evacuate(self, location):
+        """
+        Determine if a location should be evacuated based on hurricane level
+        """
+        hurricane_level = location.attributes.get('hurricane_level', 0)
+        return hurricane_level >= 3  # Evacuate for Category 1 and above

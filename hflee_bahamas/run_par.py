@@ -10,6 +10,17 @@ import sys
 from flee.SimulationSettings import SimulationSettings
 from datetime import datetime, timedelta
 
+def calculate_hurricane_spawning(hurricane_level):
+    """
+    Calculate spawning based on hurricane level from simulation settings
+    """
+    displaced_rates = SimulationSettings.spawn_rules['hurricane_driven_spawning']['displaced_per_flood_day']
+    
+    if hurricane_level < len(displaced_rates):
+        return displaced_rates[hurricane_level]
+    
+    return displaced_rates[-1]  # Use the last rate if level exceeds defined rates
+
 if __name__ == "__main__":
 
   start_date, end_time = read_period.read_sim_period("{}/sim_period.csv".format(sys.argv[1]))
@@ -58,18 +69,30 @@ if __name__ == "__main__":
   refugees_raw = 0
 
   for t in range(0, end_time):
-    ig.AddNewConflictZones(e,t)
-    new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
-    spawning.refresh_spawn_weights(e)
-    e.enact_border_closures(t)
-
+    ig.AddNewConflictZones(e, t)
+        
+        # Hurricane-specific spawning logic
     if t in ig.hurricane_data:
-       for loc, level in ig.hurricane_data[t].items():
-          if loc in e.locations:
-             e.locations[loc].hurricane_level = level
-    
-    e.evolve()
-    
+      for loc, level in ig.hurricane_data[t].items():
+        if loc in e.locations:
+                    # Set hurricane level for the location
+          e.locations[loc].attributes['hurricane_level'] = level
+                    
+                    # Calculate and apply spawning based on hurricane level
+          spawn_rate = calculate_hurricane_spawning(level)
+        if spawn_rate > 0:
+                        # You might need to implement a custom spawning method 
+                        # that takes hurricane level into account
+          new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d, scale_factor=spawn_rate)
+                            # Additional parameters to control hurricane-specific spawning
+                      
+
+        # Existing simulation evolution
+        new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
+        spawning.refresh_spawn_weights(e)
+        e.enact_border_closures(t)
+        
+        e.evolve()
     errors = []
     abs_errors = []
     loc_data = []
