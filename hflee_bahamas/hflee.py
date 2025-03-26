@@ -61,15 +61,14 @@ class HFleeInputGeography(InputGeography):
         super().__init__()
         print("HFleeInputGeography is being used!")
 
-    def UpdateLocationAttributes(self, e, attribute_name: str, time: int) -> None:
+    def UpdateLocationAttributes(self, e, attribute_name, time):
+        """
+        Update location attributes while handling missing keys.
+        """
+        attrlist = self.attributes.get(attribute_name, {})  # Prevents KeyError
+
+        if not attrlist:
+            print(f"Warning: '{attribute_name}' attribute is missing or empty.", file = sys.stderr)
+            return
 
         super().UpdateLocationAttributes(e, attribute_name, time)
-        if attribute_name == "hurricane_level":
-            attrlist = self.attributes.get(attribute_name, {})
-
-            for loc in e.locations:
-                loc_name = loc.name
-                if loc_name in attrlist:
-                    loc.attributes[attribute_name] = int(attrlist[loc_name])
-                else:    
-                    loc.attributes[attribute_name] = 0
