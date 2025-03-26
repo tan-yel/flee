@@ -72,7 +72,7 @@ if __name__ == "__main__":
     ig.AddNewConflictZones(e, t)
         
         # Hurricane-specific spawning logic
-    if t in ig.hurricane_data:
+    if hasattr(ig, "hurricane_data") and t in ig.hurricane_data:
       for loc, level in ig.hurricane_data[t].items():
         if loc in e.locations:
                     # Set hurricane level for the location
