@@ -374,10 +374,10 @@ class Location:
                 # move chance based on default because flood_level not linked to flood_zone yet
                 self.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
                 self.flood_zone = True 
-            elif "evacuation_zone" in location_type.lower:
+            elif "evacuation_zone" in location_type.lower():
                 self.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
                 self.evacuation_zone = True  
-            elif "safe_zone" in location_type.lower:
+            elif "safe_zone" in location_type.lower():
                 self.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
                 self.safe_zone = True  
             elif "default" in location_type.lower() or "town" in location_type.lower():
@@ -1428,11 +1428,11 @@ class Ecosystem:
             l.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
             l.flood_zone = True
             print(location_type.lower())
-        elif "evacuation_zone" in location_type.lower:
+        elif "evacuation_zone" in location_type.lower():
             l.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
             l.evacuation_zone = True
             print(location_type.lower())
-        elif "safe_zone" in location_type.lower:
+        elif "safe_zone" in location_type.lower():
             l.movechance = SimulationSettings.move_rules["DefaultMoveChance"]
             l.safe_zone = True
             print(location_type.lower())
