@@ -57,7 +57,6 @@ class HFleeInputGeography(InputGeography):
     
     def __init__(self):
         super().__init__()
-        self.hurricane_data = {}
         print("HFleeInputGeography is being used!")
 
     def UpdateLocationAttributes(self, e, attribute_name, time):
