@@ -35,11 +35,11 @@ class HFleeEcosystem(Ecosystem):
         self.agents.append(person)
     
     def evolve(self):
-        """
-        Evolve the ecosystem with hurricane-specific movement rules
-        """
         for agent in self.agents:
-            # Check hurricane level at current location
+            print(f"Agent type: {type(agent)}")  # Debug: check agent class
+            if hasattr(agent, "movechance") and agent.movechance > 0:
+                agent.update_location()
+
             hurricane_level = agent.location.attributes.get('hurricane_level', 0)
             
             # Determine if agent should move based on hurricane level and move chance
