@@ -70,29 +70,31 @@ if __name__ == "__main__":
 
   for t in range(0, end_time):
     ig.AddNewConflictZones(e, t)
-        
-        # Hurricane-specific spawning logic
-    if hasattr(ig, "hurricane_data") and t in ig.hurricane_data:
-      for loc, level in ig.hurricane_data[t].items():
-        if loc in e.locations:
-                    # Set hurricane level for the location
-          e.locations[loc].attributes['hurricane_level'] = level
-                    
-                    # Calculate and apply spawning based on hurricane level
-          spawn_rate = calculate_hurricane_spawning(level)
-        if spawn_rate > 0:
-                        # You might need to implement a custom spawning method 
-                        # that takes hurricane level into account
-          new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d, scale_factor=spawn_rate)
-                            # Additional parameters to control hurricane-specific spawning
-                      
+    ig.UpdateLocationAttributes(e, "hurricane_level", t)
 
-        # Existing simulation evolution
-        new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
-        spawning.refresh_spawn_weights(e)
-        e.enact_border_closures(t)
-        
-        e.evolve()
+    # 🌪️ Hurricane-driven spawning
+    hurricane_data = getattr(ig, "hurricane_data", {})
+    h_spawn = SimulationSettings.spawn_rules.get("hurricane_driven_spawning", {})
+    displaced_per_day = h_spawn.get("displaced_per_flood_day", [0.0] * 5)
+
+    if t in hurricane_data:
+        for loc_name, level in hurricane_data[t].items():
+            if loc_name in e.locations:
+                loc = e.locations[loc_name]
+                loc.attributes["hurricane_level"] = level
+
+                # Calculate number of people to spawn
+                spawn_ratio = displaced_per_day[min(level, len(displaced_per_day) - 1)]
+                if spawn_ratio > 0:
+                    num_to_spawn = int(loc.population * spawn_ratio)
+                    for _ in range(num_to_spawn):
+                        e.add_hflee_person(loc)
+
+    new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
+    spawning.refresh_spawn_weights(e)
+    e.enact_border_closures(t)
+    e.evolve()
+
     errors = []
     abs_errors = []
     loc_data = []

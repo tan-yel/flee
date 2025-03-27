@@ -1,6 +1,8 @@
 from flee.SimulationSettings import SimulationSettings
 from flee.flee import Person, Ecosystem
 from flee.InputGeography import InputGeography
+import csv
+
 
 class HFleePerson(Person):
     def choose_destination(self):
@@ -22,13 +24,9 @@ class HFleeEcosystem(Ecosystem):
         # If no movechance provided, use default or calculate based on hurricane level
         if movechance is None:
             hurricane_level = location.attributes.get('hurricane_level', 0)
-            
-            # Use flood_movechances from simulation settings as a template
-            move_chances = SimulationSettings.move_rules.get('flood_movechances', [0.5, 0.9, 1.0, 1.0, 1.0])
-            
-            # Default to the last move chance if hurricane level exceeds defined levels
-            movechance = move_chances[hurricane_level] if hurricane_level < len(move_chances) else move_chances[-1]
-        
+            hurricane_movechances = SimulationSettings.move_rules.get("HurricaneMovechances", [0.6]*5)
+            movechance = hurricane_movechances[min(hurricane_level, len(hurricane_movechances)-1)]
+
         # Use default awareness and speed if not provided
         awareness = awareness or SimulationSettings.move_rules.get('awareness_level', 1)
         speed = speed or (1.0 if SimulationSettings.move_rules.get('start_on_foot', True) else 0.5)
@@ -71,5 +69,23 @@ class HFleeInputGeography(InputGeography):
         if not attrlist:
             print(f"Warning: '{attribute_name}' attribute is missing or empty.")
             return
+        
+        if attribute_name == "hurricane_level":
+            level_data = self.hurricane_data.get(time, {})
+            for loc in e.locations:
+                if loc.name in level_data:
+                    loc.attributes["hurricane_level"] = level_data[loc.name]
 
         super().UpdateLocationAttributes(e, attribute_name, time)
+    
+    def ReadHurricaneData(self, filename):
+        with open(filename) as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                loc = row["name"].strip()
+                time = int(row["time"])
+                level = int(row["hurricane_level"])
+                if time not in self.hurricane_data:
+                    self.hurricane_data[time] = {}
+                self.hurricane_data[time][loc] = level
+
