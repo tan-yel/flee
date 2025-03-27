@@ -90,7 +90,7 @@ if __name__ == "__main__":
                     for _ in range(num_to_spawn):
                         e.add_hflee_person(loc)
 
-    spawn_locs = [loc for loc in e.locations if loc.spawn_weight > 0]
+    spawn_locs = [loc for loc in e.locations if hasattr(loc, "spawn_weight") and loc.spawn_weight > 0]
 
     if spawn_locs:
         new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
