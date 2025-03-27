@@ -54,11 +54,15 @@ class HFleeEcosystem(Ecosystem):
                     agent.move_to(destination)
 
 class HFleeInputGeography(InputGeography):
-    
     def __init__(self):
         super().__init__()
         self.hurricane_data = {}
-        print("HFleeInputGeography is being used!")
+
+    def ReadLocationsFromCSV(self, csv_name):
+        with open(csv_name, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                self.AddLocationFromDict(row)
 
     def UpdateLocationAttributes(self, e, attribute_name, time):
         """
