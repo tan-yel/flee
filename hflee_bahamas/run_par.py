@@ -90,12 +90,8 @@ if __name__ == "__main__":
                     for _ in range(num_to_spawn):
                         e.add_hflee_person(loc)
 
-    spawn_locs = [loc for loc in e.locations if hasattr(loc, "spawn_weight") and loc.spawn_weight > 0]
+    new_refs, refugees_raw, refugee_debt = 0, 0, 0
 
-    if spawn_locs:
-        new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
-    else:
-        new_refs, refugees_raw, refugee_debt = 0, 0, 0  # No valid spawn locations this step
     spawning.refresh_spawn_weights(e)
     e.enact_border_closures(t)
     e.evolve()
