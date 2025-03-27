@@ -67,7 +67,7 @@ class HFleeInputGeography(InputGeography):
         attrlist = self.attributes.get(attribute_name, {})  # Prevents KeyError
 
         if not attrlist:
-            print(f"Warning: '{attribute_name}' attribute is missing or empty.", file = sys.stderr)
+            print(f"Warning: '{attribute_name}' attribute is missing or empty.")
             return
         
         if attribute_name == "hurricane_level":
