@@ -83,30 +83,32 @@ class InputGeography:
         """
         self.attributes[attribute_name] = {}
 
-        row_count = 0
-        headers = []
+        if not csv_name:
+            print(f"Skipping '{attribute_name}' attribute because no input file is set.")
+            return 
 
-        with open(csv_name, newline="", encoding="utf-8") as csvfile:
-            values = csv.reader(csvfile)
+        try:
+            with open(csv_name, newline="", encoding="utf-8") as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    name = row["name"].strip()
+                    time = int(row["time"])
+                    val = row[attribute_name].strip()
 
-            for row in values:
-                # print(row)
-                if row_count == 0:
-                    headers = row
-                    for i in range(1, len(headers)):  # field 0 is day.
-                        headers[i] = headers[i].strip()
-                        if len(headers[i]) > 0:
-                            self.attributes[attribute_name][headers[i]] = []
-                else:
-                    for i in range(1, len(row)):  # field 0 is day.
-                        # print("RAICSV", row[0], row[i], file=sys.stderr)
-                        if attribute_type == "int":
-                            self.attributes[attribute_name][headers[i]].append(int(row[i].strip()))
-                        elif attribute_type == "float":
-                            self.attributes[attribute_name][headers[i]].append(float(row[i].strip()))
-                row_count += 1
+                    if datatype == "int":
+                        val = int(val)
+                    elif datatype == "float":
+                        val = float(val)
 
-        #print(self.attributes, file=sys.stderr)
+                    if attribute_name not in self.attributes:
+                        self.attributes[attribute_name] = {}
+
+                    if time not in self.attributes[attribute_name]:
+                        self.attributes[attribute_name][time] = {}
+
+                    self.attributes[attribute_name][time][name] = val
+        except FileNotFoundError:
+            print(f"Warning: File '{csv_name}' not found. Skipping '{attribute_name}' input.")
 
 
     @check_args_type

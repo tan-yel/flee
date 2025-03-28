@@ -41,6 +41,7 @@ if __name__ == "__main__":
   e = Ecosystem()
   
   ig = HFleeInputGeography()
+  SimulationSettings.FloodLevelInputFile = ""
   ig.ReadLocationsFromCSV("%s/locations.csv" % input_csv_directory)
   ig.ReadLinksFromCSV("%s/routes.csv" % input_csv_directory)
   ig.ReadClosuresFromCSV("%s/closures.csv" % input_csv_directory)
@@ -72,7 +73,7 @@ if __name__ == "__main__":
     ig.AddNewConflictZones(e, t)
         
         # Hurricane-specific spawning logic
-    if hasattr(ig, "hurricane_data") and t in ig.hurricane_data:
+    if t in ig.hurricane_data:
       for loc, level in ig.hurricane_data[t].items():
         if loc in e.locations:
                     # Set hurricane level for the location

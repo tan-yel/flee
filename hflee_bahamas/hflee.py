@@ -59,10 +59,8 @@ class HFleeInputGeography(InputGeography):
         self.hurricane_data = {}
 
     def ReadLocationsFromCSV(self, csv_name):
-        with open(csv_name, newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                self.AddLocationFromDict(row)
+        super().ReadLocationsFromCSV(csv_name)
+
 
     def UpdateLocationAttributes(self, e, attribute_name, time):
         """
