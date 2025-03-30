@@ -3,6 +3,7 @@ from flee.flee import Person, Ecosystem
 from flee.InputGeography import InputGeography
 import csv
 
+print("HFlee loaded successfully!")
 
 class HFleePerson(Person):
     def choose_destination(self):
@@ -55,6 +56,8 @@ class HFleeEcosystem(Ecosystem):
 
 class HFleeInputGeography(InputGeography):
     def __init__(self):
+        print("HFleeInputGeography initialized")
+
         super().__init__()
         self.hurricane_data = {}
 
