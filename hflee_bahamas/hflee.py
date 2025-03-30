@@ -33,7 +33,7 @@ class HFleeEcosystem(Ecosystem):
             5: 1.0   # Category 4-5 hurricane
         }
 
-        return hurricane_impact_map.get(hurricane_level, 0.0)  # ✅ No movement for level 0
+        return hurricane_impact_map.get(hurricane_level, 0.0)  # No movement for level 0
 
 
     def should_evacuate(self, location):

@@ -45,6 +45,8 @@ if __name__ == "__main__":
   ig.ReadLocationsFromCSV("%s/locations.csv" % input_csv_directory)
   ig.ReadLinksFromCSV("%s/routes.csv" % input_csv_directory)
   ig.ReadClosuresFromCSV("%s/closures.csv" % input_csv_directory)
+  ig.ReadHurricaneData("%s/hurricane_zones.csv" % input_csv_directory)
+
 
   e, lm = ig.StoreInputGeographyInEcosystem(e)
 
