@@ -2,6 +2,7 @@ from flee.SimulationSettings import SimulationSettings
 from flee.flee import Person, Ecosystem
 from flee.InputGeography import InputGeography
 import csv
+import sys
 
 print("HFlee loaded successfully!")
 
@@ -37,7 +38,7 @@ class HFleeEcosystem(Ecosystem):
     
     def evolve(self):
         for agent in self.agents:
-            print(f"Agent type: {type(agent)}")  # Debug: check agent class
+            print(f"Agent type: {type(agent)}", file=sys.stderr)  # Debug: check agent class
             if hasattr(agent, "movechance") and agent.movechance > 0:
                 agent.update_location()
 
@@ -56,7 +57,7 @@ class HFleeEcosystem(Ecosystem):
 
 class HFleeInputGeography(InputGeography):
     def __init__(self):
-        print("HFleeInputGeography initialized")
+        print("HFleeInputGeography initialized", file=sys.stderr)
 
         super().__init__()
         self.hurricane_data = {}
@@ -72,7 +73,7 @@ class HFleeInputGeography(InputGeography):
         attrlist = self.attributes.get(attribute_name, {})  # Prevents KeyError
 
         if not attrlist:
-            print(f"Warning: '{attribute_name}' attribute is missing or empty.")
+            print(f"Warning: '{attribute_name}' attribute is missing or empty.", file=sys.stderr)
             return
         
         if attribute_name == "hurricane_level":
@@ -80,11 +81,13 @@ class HFleeInputGeography(InputGeography):
             for loc in e.locations:
                 if loc.name in level_data:
                     loc.attributes["hurricane_level"] = level_data[loc.name]
+                    print(f"Hurricane levels updated for time {time}", file=sys.stderr)
 
         super().UpdateLocationAttributes(e, attribute_name, time)
     
     def ReadHurricaneData(self, filename):
         with open(filename) as f:
+            print(f"Reading hurricane data from {filename}", file=sys.stderr)
             reader = csv.DictReader(f)
             for row in reader:
                 loc = row["name"].strip()
