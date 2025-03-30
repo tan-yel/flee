@@ -8,52 +8,49 @@ print("HFlee loaded successfully!")
 
 class HFleePerson(Person):
     def choose_destination(self):
-        if self.location.location_type == "evacuation_zone":
-            safe_routes = [link.endpoint for link in self.location.links if link.endpoint.location_type in ["camp", "safe_zone"]]
+        if self.location.attributes.get("custom_type") == "evacuation_zone":
+            # Ask the ecosystem if we should evacuate
+            if self.ecosystem.should_evacuate(self.location):
+                safe_routes = [link.endpoint for link in self.location.links
+                               if link.endpoint.attributes.get("custom_type") == "safe_zone"]
 
-            if not safe_routes:
-                return None
-            
-            return min(safe_routes, key=lambda loc:loc.distance)
-        
+                if not safe_routes:
+                    return None
+
+                return min(safe_routes, key=lambda loc: loc.distance)
         return None
 
 class HFleeEcosystem(Ecosystem):
+    def assess_hurricane_impact(self, location, hurricane_level):
+        """
+        Determine movement probability based on hurricane level
+        """
+        hurricane_impact_map = {
+            1: 0.3,  # Tropical depression
+            2: 0.5,  # Tropical storm
+            3: 0.7,  # Category 1 hurricane
+            4: 0.9,  # Category 2-3 hurricane
+            5: 1.0   # Category 4-5 hurricane
+        }
+
+        return hurricane_impact_map.get(hurricane_level, 0.0)  # ✅ No movement for level 0
+
+
+    def should_evacuate(self, location):
+        """
+        Determine if a location should be evacuated based on hurricane level
+        """
+        hurricane_level = location.attributes.get('hurricane_level', 0)
+        return hurricane_level >= 3  # Evacuate for Cat 1 and up
+
     def add_hflee_person(self, location, movechance=None, awareness=None, speed=None):
-        """
-        Create a person with hurricane-aware move chance
-        """
-        # If no movechance provided, use default or calculate based on hurricane level
         if movechance is None:
             hurricane_level = location.attributes.get('hurricane_level', 0)
-            hurricane_movechances = SimulationSettings.move_rules.get("HurricaneMovechances", [0.6]*5)
-            movechance = hurricane_movechances[min(hurricane_level, len(hurricane_movechances)-1)]
+            movechance = self.assess_hurricane_impact(location, hurricane_level)
 
-        # Use default awareness and speed if not provided
-        awareness = awareness or SimulationSettings.move_rules.get('awareness_level', 1)
-        speed = speed or (1.0 if SimulationSettings.move_rules.get('start_on_foot', True) else 0.5)
-        
-        person = HFleePerson(location, movechance, awareness, speed)
-        self.agents.append(person)
-    
-    def evolve(self):
-        for agent in self.agents:
-            print(f"Agent type: {type(agent)}", file=sys.stderr)  # Debug: check agent class
-            if hasattr(agent, "movechance") and agent.movechance > 0:
-                agent.update_location()
-
-            hurricane_level = agent.location.attributes.get('hurricane_level', 0)
-            
-            # Determine if agent should move based on hurricane level and move chance
-            if hurricane_level >= 3:  # Mandatory evacuation for Category 1 and above
-                destination = agent.choose_destination()
-                if destination:
-                    agent.move_to(destination)
-            elif agent.movechance > 0:
-                # Optional movement for lower hurricane levels
-                destination = agent.choose_destination()
-                if destination:
-                    agent.move_to(destination)
+        p = HFleePerson(location, self, movechance, awareness=awareness, speed=speed)
+        self.people.append(p)
+        location.add_person(p)
 
 class HFleeInputGeography(InputGeography):
     def __init__(self):
@@ -86,14 +83,22 @@ class HFleeInputGeography(InputGeography):
         super().UpdateLocationAttributes(e, attribute_name, time)
     
     def ReadHurricaneData(self, filename):
-        with open(filename) as f:
-            print(f"Reading hurricane data from {filename}", file=sys.stderr)
-            reader = csv.DictReader(f)
-            for row in reader:
-                loc = row["name"].strip()
-                time = int(row["time"])
-                level = int(row["hurricane_level"])
-                if time not in self.hurricane_data:
-                    self.hurricane_data[time] = {}
-                self.hurricane_data[time][loc] = level
+        print(f"[HFlee] Reading hurricane impact matrix from {filename}", file=sys.stderr)
+
+        try:
+            with open(filename, newline='', encoding='utf-8') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    time = int(row["#Day"])
+                    for location_name, level_str in row.items():
+                        if location_name == "#Day":
+                            continue
+                        hurricane_level = int(level_str)
+                        self.hurricane_data.setdefault(time, {})[location_name.strip()] = hurricane_level
+
+            print(f"[HFlee] Loaded hurricane data for {len(self.hurricane_data)} time steps", file=sys.stderr)
+
+        except FileNotFoundError:
+            print(f"[HFlee][ERROR] File '{filename}' not found. Skipping hurricane data.", file=sys.stderr)
+
 
