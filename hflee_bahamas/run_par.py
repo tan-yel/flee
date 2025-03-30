@@ -73,29 +73,35 @@ if __name__ == "__main__":
 
   for t in range(0, end_time):
     ig.AddNewConflictZones(e, t)
-        
-        # Hurricane-specific spawning logic
-    if t in ig.hurricane_data:
-      for loc, level in ig.hurricane_data[t].items():
-        if loc in e.locations:
-                    # Set hurricane level for the location
-          e.locations[loc].attributes['hurricane_level'] = level
-                    
-                    # Calculate and apply spawning based on hurricane level
-          spawn_rate = calculate_hurricane_spawning(level)
-        if spawn_rate > 0:
-                        # You might need to implement a custom spawning method 
-                        # that takes hurricane level into account
-          new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d, scale_factor=spawn_rate)
-                            # Additional parameters to control hurricane-specific spawning
-                      
 
-        # Existing simulation evolution
-        new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(e, t, d)
-        spawning.refresh_spawn_weights(e)
-        e.enact_border_closures(t)
-        
-        e.evolve()
+    # Hurricane-specific spawning logic
+    if t in ig.hurricane_data:
+        for loc_name, level in ig.hurricane_data[t].items():
+            if loc_name in e.locations:
+                loc = e.locations[loc_name]
+
+                # Set hurricane level attribute for this location
+                loc.attributes['hurricane_level'] = level
+
+                # Calculate spawn rate from the hurricane level
+                spawn_curve = SimulationSettings.SpawnRules["hurricane_driven_spawning"]["displaced_per_flood_day"]
+                try:
+                    spawn_rate = spawn_curve[level] * loc.population
+                except IndexError:
+                    spawn_rate = 0  # Or log a warning
+                except TypeError:
+                    spawn_rate = 0  # If population is None, etc.
+
+                if spawn_rate > 0:
+                    new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(
+                        e, t, d, location=loc, scale_factor=spawn_rate
+                    )
+
+    # Refresh and evolve
+    spawning.refresh_spawn_weights(e)
+    e.enact_border_closures(t)
+    e.evolve()
+
     errors = []
     abs_errors = []
     loc_data = []
