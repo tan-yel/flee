@@ -33,6 +33,7 @@ class HFleeEcosystem(Ecosystem):
         print("[HFlee] Hurricane Impact Levels:", file=sys.stderr)
         for level in sorted(self.impact_map):
             print(f"[HFlee]   {level}: {self.impact_map[level]} movechance", file=sys.stderr)
+        print(f"[HFlee] Evacuation threshold: {self.evacuation_threshold}", file=sys.stderr)
 
     def assess_hurricane_impact(self, location, hurricane_level):
         return self.impact_map.get(hurricane_level, 0.0)

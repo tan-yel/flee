@@ -16,17 +16,18 @@ spawn_rules:
     flood_spawn_mode: "pop_ratio"
     displaced_per_flood_day: [0.0,0.1,0.3,0.5,0.7]
     HurricaneLevelInputFile: "hurricane_zones.csv"
+  hurricane_impact_map:
+    1: 0.3
+    2: 0.4
+    3: 0.6
+    4: 0.9
+    5: 1.0
 
+  evacuation_threshold: 2
+  
 move_rules:
   default_movechance: 0.6
   awareness_level: 1
   start_on_foot: True
 
-hurricane_impact_map:
-  1: 0.3
-  2: 0.4
-  3: 0.6
-  4: 0.9
-  5: 1.0
 
-evacuation_threshold: 3
