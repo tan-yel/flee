@@ -24,9 +24,8 @@ class HFleeEcosystem(Ecosystem):
     def __init__(self):
         super().__init__()
         self.impact_map = SimulationSettings.spawn_rules.get("hurricane_impact_map", {
-            1: 0.3, 2: 0.5, 3: 0.7, 4: 0.9, 5: 1.0 }) # default values in case not set by user
+            1: 0.3, 2: 0.5, 3: 0.7, 4: 0.9, 5: 1.0 })
         self.evacuation_threshold = SimulationSettings.spawn_rules.get("evacuation_threshold", 3)
-
         self.print_hurricane_impact_map()
 
     def print_hurricane_impact_map(self):
