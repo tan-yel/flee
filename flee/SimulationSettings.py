@@ -206,6 +206,11 @@ class SimulationSettings:
         # Interval in days in which to progress to the next element in the conflict_spawn_decaly list.
         SimulationSettings.spawn_rules["conflict_spawn_decay_interval"] = int(fetchss(dps,"conflict_spawn_decay_interval", 30)) 
         print("Spawn decay set to: {}, with interval {}".format(SimulationSettings.spawn_rules["conflict_spawn_decay"], SimulationSettings.spawn_rules["conflict_spawn_decay_interval"]), file=sys.stderr)
+        
+        SimulationSettings.spawn_rules["evacuation_threshold"] = int(fetchss(dps, "evacuation_threshold", 3))
+        SimulationSettings.spawn_rules["hurricane_impact_map"] = fetchss(dps, "hurricane_impact_map", {
+            1: 0.3, 2: 0.5, 3: 0.7, 4: 0.9, 5: 1.0
+        })
 
 
         dpr = fetchss(dp,"move_rules",None)

@@ -1,4 +1,4 @@
-from flee.SimulationSettings import SimulationSettings
+from flee.SimulationSettings import SimulationSettings, fetchss
 from flee.flee import Person, Ecosystem
 from flee.InputGeography import InputGeography
 import csv
@@ -23,9 +23,10 @@ class HFleePerson(Person):
 class HFleeEcosystem(Ecosystem):
     def __init__(self):
         super().__init__()
-        self.impact_map = SimulationSettings.spawn_rules.get("hurricane_impact_map", {
-            1: 0.3, 2: 0.5, 3: 0.7, 4: 0.9, 5: 1.0 })
         self.evacuation_threshold = SimulationSettings.spawn_rules.get("evacuation_threshold", 3)
+        self.impact_map = SimulationSettings.spawn_rules.get("hurricane_impact_map", {
+            1: 0.3, 2: 0.5, 3: 0.7, 4: 0.9, 5: 1.0
+        })
         self.print_hurricane_impact_map()
 
     def print_hurricane_impact_map(self):
