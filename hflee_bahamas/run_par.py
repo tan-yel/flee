@@ -98,14 +98,14 @@ if __name__ == "__main__":
                 except (IndexError, TypeError, KeyError) as err:
                     print(f"[HFlee][ERROR] Spawn error at {loc_name} (level {level}): {err}", file=sys.stderr)
 
-    # Continue with standard Flee loop
     spawning.refresh_spawn_weights(e)
     e.enact_border_closures(t)
     e.evolve()
 
-    # After loop, summary
+    # summary
     print("[HFlee] Hurricane simulation complete.", file=sys.stderr)
     print(f"[HFlee] {len(ig.hurricane_data)} days of hurricane data were used.", file=sys.stderr)
+
     affected_locations = set()
     for day_data in ig.hurricane_data.values():
         affected_locations.update(day_data.keys())

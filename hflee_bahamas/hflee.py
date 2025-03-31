@@ -23,29 +23,23 @@ class HFleePerson(Person):
 class HFleeEcosystem(Ecosystem):
     def __init__(self):
         super().__init__()
+        self.impact_map = SimulationSettings.SpawnRules.get("hurricane_impact_map", {
+            1: 0.3, 2: 0.5, 3: 0.7, 4: 0.9, 5: 1.0
+        })
+        self.evacuation_threshold = SimulationSettings.SpawnRules.get("evacuation_threshold", 3)
         self.print_hurricane_impact_map()
 
     def print_hurricane_impact_map(self):
         print("[HFlee] Hurricane Impact Levels:", file=sys.stderr)
-        print("[HFlee]   1: Tropical Depression (0.3 movechance)", file=sys.stderr)
-        print("[HFlee]   2: Tropical Storm      (0.5 movechance)", file=sys.stderr)
-        print("[HFlee]   3: Cat 1 Hurricane     (0.7 movechance)", file=sys.stderr)
-        print("[HFlee]   4: Cat 2-3 Hurricane   (0.9 movechance)", file=sys.stderr)
-        print("[HFlee]   5: Cat 4-5 Hurricane   (1.0 movechance)", file=sys.stderr)
+        for level in sorted(self.impact_map):
+            print(f"[HFlee]   {level}: {self.impact_map[level]} movechance", file=sys.stderr)
 
     def assess_hurricane_impact(self, location, hurricane_level):
-        hurricane_impact_map = {
-            1: 0.3,
-            2: 0.5,
-            3: 0.7,
-            4: 0.9,
-            5: 1.0
-        }
-        return hurricane_impact_map.get(hurricane_level, 0.0)
+        return self.impact_map.get(hurricane_level, 0.0)
 
     def should_evacuate(self, location):
         hurricane_level = location.attributes.get('hurricane_level', 0)
-        return hurricane_level >= 3
+        return hurricane_level >= self.evacuation_threshold
 
     def add_hflee_person(self, location, movechance=None, awareness=None, speed=None):
         if movechance is None:
