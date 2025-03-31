@@ -102,14 +102,14 @@ if __name__ == "__main__":
     e.enact_border_closures(t)
     e.evolve()
 
-    # summary
-    print("[HFlee] Hurricane simulation complete.", file=sys.stderr)
-    print(f"[HFlee] {len(ig.hurricane_data)} days of hurricane data were used.", file=sys.stderr)
+    
 
     affected_locations = set()
     for day_data in ig.hurricane_data.values():
         affected_locations.update(day_data.keys())
-    print(f"[HFlee] {len(affected_locations)} locations were impacted during the run.", file=sys.stderr)
+    print(f"[HFlee] {len(affected_locations)} locations were impacted during the run.", file=sys.stderr)# summary
+    print("[HFlee] Hurricane simulation complete.", file=sys.stderr)
+    print(f"[HFlee] {len(ig.hurricane_data)} days of hurricane data were used.", file=sys.stderr)
     errors = []
     abs_errors = []
     loc_data = []
