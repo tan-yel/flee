@@ -24,8 +24,8 @@ move_rules:
 
 hurricane_impact_map:
   1: 0.3
-  2: 0.5
-  3: 0.7
+  2: 0.4
+  3: 0.6
   4: 0.9
   5: 1.0
 
