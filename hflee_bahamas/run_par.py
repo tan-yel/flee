@@ -80,28 +80,36 @@ if __name__ == "__main__":
             if loc_name in e.locations:
                 loc = e.locations[loc_name]
 
-                # Set hurricane level attribute for this location
+                # Set hurricane level attribute
                 loc.attributes['hurricane_level'] = level
+                print(f"[HFlee][Day {t}] {loc_name} impacted by hurricane (level {level})", file=sys.stderr)
 
-                # Calculate spawn rate from the hurricane level
-                spawn_curve = SimulationSettings.SpawnRules["hurricane_driven_spawning"]["displaced_per_flood_day"]
+                # Get spawn curve from settings
                 try:
+                    spawn_curve = SimulationSettings.SpawnRules["hurricane_driven_spawning"]["displaced_per_flood_day"]
                     spawn_rate = spawn_curve[level] * loc.population
-                except IndexError:
-                    spawn_rate = 0  # Or log a warning
-                except TypeError:
-                    spawn_rate = 0  # If population is None, etc.
 
-                if spawn_rate > 0:
-                    new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(
-                        e, t, d, location=loc, scale_factor=spawn_rate
-                    )
+                    if spawn_rate > 0:
+                        new_refs, refugees_raw, refugee_debt = spawning.spawn_daily_displaced(
+                            e, t, d, location=loc, scale_factor=spawn_rate
+                        )
+                        print(f"[HFlee][Day {t}] Spawning ~{int(spawn_rate)} people from {loc_name}", file=sys.stderr)
 
-    # Refresh and evolve
+                except (IndexError, TypeError, KeyError) as err:
+                    print(f"[HFlee][ERROR] Spawn error at {loc_name} (level {level}): {err}", file=sys.stderr)
+
+    # Continue with standard Flee loop
     spawning.refresh_spawn_weights(e)
     e.enact_border_closures(t)
     e.evolve()
 
+    # After loop, summary
+    print("[HFlee] Hurricane simulation complete.", file=sys.stderr)
+    print(f"[HFlee] {len(ig.hurricane_data)} days of hurricane data were used.", file=sys.stderr)
+    affected_locations = set()
+    for day_data in ig.hurricane_data.values():
+        affected_locations.update(day_data.keys())
+    print(f"[HFlee] {len(affected_locations)} locations were impacted during the run.", file=sys.stderr)
     errors = []
     abs_errors = []
     loc_data = []

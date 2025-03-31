@@ -21,27 +21,31 @@ class HFleePerson(Person):
         return None
 
 class HFleeEcosystem(Ecosystem):
+    def __init__(self):
+        super().__init__()
+        self.print_hurricane_impact_map()
+
+    def print_hurricane_impact_map(self):
+        print("[HFlee] Hurricane Impact Levels:", file=sys.stderr)
+        print("[HFlee]   1: Tropical Depression (0.3 movechance)", file=sys.stderr)
+        print("[HFlee]   2: Tropical Storm      (0.5 movechance)", file=sys.stderr)
+        print("[HFlee]   3: Cat 1 Hurricane     (0.7 movechance)", file=sys.stderr)
+        print("[HFlee]   4: Cat 2-3 Hurricane   (0.9 movechance)", file=sys.stderr)
+        print("[HFlee]   5: Cat 4-5 Hurricane   (1.0 movechance)", file=sys.stderr)
+
     def assess_hurricane_impact(self, location, hurricane_level):
-        """
-        Determine movement probability based on hurricane level
-        """
         hurricane_impact_map = {
-            1: 0.3,  # Tropical depression
-            2: 0.5,  # Tropical storm
-            3: 0.7,  # Category 1 hurricane
-            4: 0.9,  # Category 2-3 hurricane
-            5: 1.0   # Category 4-5 hurricane
+            1: 0.3,
+            2: 0.5,
+            3: 0.7,
+            4: 0.9,
+            5: 1.0
         }
-
-        return hurricane_impact_map.get(hurricane_level, 0.0)  # No movement for level 0
-
+        return hurricane_impact_map.get(hurricane_level, 0.0)
 
     def should_evacuate(self, location):
-        """
-        Determine if a location should be evacuated based on hurricane level
-        """
         hurricane_level = location.attributes.get('hurricane_level', 0)
-        return hurricane_level >= 3  # Evacuate for Cat 1 and up
+        return hurricane_level >= 3
 
     def add_hflee_person(self, location, movechance=None, awareness=None, speed=None):
         if movechance is None:
@@ -54,33 +58,27 @@ class HFleeEcosystem(Ecosystem):
 
 class HFleeInputGeography(InputGeography):
     def __init__(self):
-        print("HFleeInputGeography initialized", file=sys.stderr)
-
         super().__init__()
         self.hurricane_data = {}
+        print("[HFlee] HFleeInputGeography initialized", file=sys.stderr)
 
     def ReadLocationsFromCSV(self, csv_name):
         super().ReadLocationsFromCSV(csv_name)
 
-
     def UpdateLocationAttributes(self, e, attribute_name, time):
-        """
-        Update location attributes while handling missing keys.
-        """
-        attrlist = self.attributes.get(attribute_name, {})  # Prevents KeyError
-
-        if not attrlist:
-            print(f"Warning: '{attribute_name}' attribute is missing or empty.", file=sys.stderr)
+        if attribute_name == "flood_level":
+            if not hasattr(self, "_flood_warned"):
+                print("[HFlee][INFO] Skipping 'flood_level' — not used in HFlee.", file=sys.stderr)
+                self._flood_warned = True
             return
-        
+
         if attribute_name == "hurricane_level":
             level_data = self.hurricane_data.get(time, {})
             for loc in e.locations:
                 if loc.name in level_data:
                     loc.attributes["hurricane_level"] = level_data[loc.name]
-                    print(f"Hurricane levels updated for time {time}", file=sys.stderr)
-
-        super().UpdateLocationAttributes(e, attribute_name, time)
+        else:
+            super().UpdateLocationAttributes(e, attribute_name, time)
     
     def ReadHurricaneData(self, filename):
         print(f"[HFlee] Reading hurricane impact matrix from {filename}", file=sys.stderr)
