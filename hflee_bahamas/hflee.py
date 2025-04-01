@@ -4,7 +4,7 @@ from flee.InputGeography import InputGeography
 import csv
 import sys
 
-print("HFlee loaded successfully!")
+print("HFlee loaded successfully!", file=sys.stderr)
 
 class HFleePerson(Person):
     def choose_destination(self):
