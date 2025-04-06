@@ -26,7 +26,8 @@ if __name__ == "__main__":
   start_date, end_time = read_period.read_sim_period("{}/sim_period.csv".format(sys.argv[1]))
 
   if len(sys.argv) < 4:
-    print("Please run using: python3 run.py <your_csv_directory> <your_refugee_data_directory> <duration in days> <optional: simsettings.yml> > <output_directory>/<output_csv_filename>")
+    print("Please run using: python3 run.py <your_csv_directory> <your_refugee_data_directory> <duration in days> <optional: " \
+    "simsettings.yml> > " "<output_directory>/<output_csv_filename>")
 
   input_csv_directory = sys.argv[1]
   validation_data_directory = sys.argv[2]
@@ -102,7 +103,6 @@ if __name__ == "__main__":
     e.enact_border_closures(t)
     e.evolve()
 
-    
 
     affected_locations = set()
     for day_data in ig.hurricane_data.values():

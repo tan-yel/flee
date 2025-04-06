@@ -17,11 +17,11 @@ spawn_rules:
     displaced_per_flood_day: [0.0,0.1,0.3,0.5,0.7]
     HurricaneLevelInputFile: "hurricane_zones.csv"
   hurricane_impact_map:
-    1: 0.3
-    2: 0.4
-    3: 0.6
-    4: 0.9
-    5: 1.0
+    1: 0.3 # Tropical depression 
+    2: 0.4 # Tropical storm
+    3: 0.6 # Category 1 hurricane
+    4: 0.9 # Category 2-3 hurricane
+    5: 1.0 # Category 4-5 hurricane
 
   evacuation_threshold: 2
   
