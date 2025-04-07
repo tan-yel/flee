@@ -278,6 +278,9 @@ class DataTable:
                         )
 
                     self.data_table.append(csv_total)
+                    print(f"[Debug] Parsed data for {row[0]}:")
+                    print(csv_total[:10])  # First 10 rows
+
 
         # print(self.header, self.data_table)
 
