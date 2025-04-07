@@ -196,8 +196,11 @@ def ConvertCsvFileToNumPyTable(
                     start_date=start_date,
                     population_scaledown_factor=population_scaledown_factor,
                 )
+        row_count = 0
 
         for row in values:
+            row_count += 1
+            print(f"[Debug] Row {row_count}: {row}")
             table = _processEntry(
                 row=row,
                 table=table,
@@ -207,8 +210,7 @@ def ConvertCsvFileToNumPyTable(
                 start_date=start_date,
                 population_scaledown_factor=population_scaledown_factor,
             )
-            row_count += 1
-            print(f"[Debug] Row {row_count}: {row}")
+            
 
 
     return table
