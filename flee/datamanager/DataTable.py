@@ -196,11 +196,8 @@ def ConvertCsvFileToNumPyTable(
                     start_date=start_date,
                     population_scaledown_factor=population_scaledown_factor,
                 )
-        row_count = 0
 
         for row in values:
-            row_count += 1
-            print(f"[Debug] Row {row_count}: {row}")
             table = _processEntry(
                 row=row,
                 table=table,
@@ -210,7 +207,6 @@ def ConvertCsvFileToNumPyTable(
                 start_date=start_date,
                 population_scaledown_factor=population_scaledown_factor,
             )
-            
 
 
     return table
@@ -283,8 +279,6 @@ class DataTable:
                         )
 
                     self.data_table.append(csv_total)
-                    print(f"[Debug] Parsed data for {row[0]}:")
-                    print(csv_total[:10])  # First 10 rows
 
 
         # print(self.header, self.data_table)
